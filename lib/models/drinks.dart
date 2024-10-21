@@ -19,4 +19,10 @@ class Drink {
       required this.unit,
       this.boughtQuantity = 1,
       this.isSelected = false});
+
+
+        @override
+  String toString() {
+    return 'Drink{name: $name, isSelected: $isSelected, boughtQuantity: $boughtQuantity}';
+  }
 }

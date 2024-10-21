@@ -70,26 +70,32 @@ class _HomePageState extends State<HomePage> {
                   child: Text('OK'),
                   onPressed: selectedTableNumber != null
                       ? () {
-                          // Add selected foods
-                          // for (var food in dummyFoodList) {
-                          //   if (food.isSelected && food.boughtQuantity > 0) {
-                          //     Order order = Order(
-                          //       foods: [food],
-                          //     );
-                          //     selectedItems.add(order);
-                          //   }
-                          // }
+                          // Create a new order for the selected table
+                          Order order = Order(
+                            tableId: selectedTableNumber.toString(),
+                            foods: [],
+                            drinks: [],
+                          );
 
-                          // Add selected drinks
-                          for (Drink drink in dummyDrinksList) {
-                            if (drink.isSelected && drink.boughtQuantity > 0) {
-                              Order order = Order(
-                                drinks: [drink],
-                              );
-                              selectedItems.add(order);
+                          // Add selected foods to the order
+                          for (var food in dummyFoodList) {
+                            if (food.isSelected && food.boughtQuantity > 0) {
+                              order.addFood(food);
                             }
-                            print(selectedItems);
                           }
+
+                          // Add selected drinks to the order
+                          for (var drink in dummyDrinksList) {
+                            if (drink.isSelected && drink.boughtQuantity > 0) {
+                              order.addDrink(drink);
+                            }
+                          }
+
+                          // Add the order to the selected items list
+                          selectedItems.add(order);
+
+                          // Print the order details
+                          print(order);
 
                           Navigator.of(context).pop();
                           Navigator.push(

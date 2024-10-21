@@ -72,7 +72,6 @@ class _GridDisplayState extends State<GridDisplay> {
           final food = dummyFoodList[index];
           return GestureDetector(
             onTap: () {
-              print('Selected food: ${food.name}');
               if (food.isSelected) {
                 // If already selected, show quantity dialog
                 _showQuantityDialog(food.name, (quantity) {
@@ -99,11 +98,11 @@ class _GridDisplayState extends State<GridDisplay> {
                   : null,
             ),
           );
-        } else {
+        }
+        if (widget.type == 'drink') {
           final drink = dummyDrinksList[index];
           return GestureDetector(
             onTap: () {
-              print('Selected drink: ${drink.name}');
               if (drink.isSelected) {
                 // If already selected, show quantity dialog
                 _showQuantityDialog(drink.name, (quantity) {

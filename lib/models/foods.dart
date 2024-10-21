@@ -5,7 +5,7 @@ class Food {
   final String description;
   final String servedWith;
   final double sellingPrice;
-  int boughtQuantity ;
+  int boughtQuantity;
   bool isSelected;
 
   Food(
@@ -17,4 +17,9 @@ class Food {
       required this.servedWith,
       this.boughtQuantity = 1,
       this.isSelected = false});
+
+  @override
+  String toString() {
+    return 'Food{id: $id, name: $name, imageUrl: $imageUrl, description: $description, servedWith: $servedWith, sellingPrice: $sellingPrice, boughtQuantity: $boughtQuantity, isSelected: $isSelected}';
+  }
 }

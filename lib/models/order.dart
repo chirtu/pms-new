@@ -3,8 +3,8 @@ import 'drinks.dart';
 
 class Order {
   final String? tableId;
-  final List<Food>? foods;
-  final List<Drink>? drinks;
+  List<Food>? foods;
+  List<Drink>? drinks;
   double? totalCost;
 
   Order({
@@ -14,9 +14,9 @@ class Order {
     this.totalCost,
   });
 
-    @override
+  @override
   String toString() {
-    return 'Order{tableId: $tableId, totalCost: $totalCost, totalBoughtQuantity: $totalBoughtQuantity, foods: $foods}';
+    return 'Order{tableId: $tableId, totalCost: $totalCost, totalBoughtQuantity: $totalBoughtQuantity, foods: $foods, drinks: $drinks}';
   }
 
   // Calculate total bought quantity
@@ -30,5 +30,17 @@ class Order {
   void calculateTotalCost() {
     totalCost = (foods?.fold(0.0, (sum, food) => sum! + (food.boughtQuantity * food.sellingPrice)) ?? 0) +
                 (drinks?.fold(0.0, (sum, drink) => sum! + (drink.boughtQuantity * drink.sellingPrice)) ?? 0);
+  }
+
+  // Add a food item to the order
+  void addFood(Food food) {
+    foods ??= [];
+    foods!.add(food);
+  }
+
+  // Add a drink item to the order
+  void addDrink(Drink drink) {
+    drinks ??= [];
+    drinks!.add(drink);
   }
 }

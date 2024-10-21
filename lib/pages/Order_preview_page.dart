@@ -27,7 +27,8 @@ class _OrderPreviewPage extends State<OrderPreviewPage> {
     super.initState();
     combinedOrder = _combineOrders(widget.selectedItems);
     print('----------');
-    print(widget.selectedItems.toString());
+    print('Selected Items: ${widget.selectedItems}');
+    print('Combined Order Drinks: ${combinedOrder.drinks}');
   }
 
   Order _combineOrders(List<Order> orders) {
@@ -49,14 +50,13 @@ class _OrderPreviewPage extends State<OrderPreviewPage> {
 
     return Order(
       tableId: widget.tableNumber.toString(),
-      // totalBoughtQuantity: totalQuantity,
       totalCost: totalCost,
       foods: combinedFoods,
       drinks: combinedDrinks,
     );
-  } 
+  }
 
-  void _editQuantity(Food item) {
+  void _editQuantity(dynamic item) {
     int newQuantity = item.boughtQuantity;
     showDialog(
       context: context,
@@ -86,8 +86,12 @@ class _OrderPreviewPage extends State<OrderPreviewPage> {
     );
   }
 
-  void _removeItem(Food item) {
-    setState(() => combinedOrder.foods?.remove(item));
+  void _removeItem(dynamic item) {
+    if (item is Food) {
+      setState(() => combinedOrder.foods?.remove(item));
+    } else if (item is Drink) {
+      setState(() => combinedOrder.drinks?.remove(item));
+    }
   }
 
   @override
@@ -106,41 +110,50 @@ class _OrderPreviewPage extends State<OrderPreviewPage> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: combinedOrder.foods?.length ?? 0,
-                itemBuilder: (context, index) {
-                  final item = combinedOrder.foods![index];
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    margin: EdgeInsets.all(4),
-                    child: ListTile(
-                      title: Text('${item.name}'),
-                      subtitle: Text(
-                        "Quantity: ${item.boughtQuantity}",
-                        style: const TextStyle(fontSize: 10),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              _editQuantity(item);
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => _removeItem(item),
-                          ),
-                        ],
+              child: ListView(
+                children: [
+                  // Display Foods
+                  if (combinedOrder.foods != null && combinedOrder.foods!.isNotEmpty) ...[
+                    Text(
+                      "Foods",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                  );
-                },
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: combinedOrder.foods?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        final item = combinedOrder.foods![index];
+                        return _buildItemTile(item);
+                      },
+                    ),
+                  ],
+                  const SizedBox(height: 16),
+                  // Display Drinks
+                  if (combinedOrder.drinks != null && combinedOrder.drinks!.isNotEmpty) ...[
+                    Text(
+                      "Drinks",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: combinedOrder.drinks?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        final item = combinedOrder.drinks![index];
+                        return _buildItemTile(item);
+                      },
+                    ),
+                  ],
+                ],
               ),
             ),
             Row(
@@ -172,6 +185,39 @@ class _OrderPreviewPage extends State<OrderPreviewPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.secondary,
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildItemTile(dynamic item) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      margin: EdgeInsets.all(4),
+      child: ListTile(
+        title: Text('${item.name}'),
+        subtitle: Text(
+          "Quantity: ${item.boughtQuantity}",
+          style: const TextStyle(fontSize: 10),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                _editQuantity(item);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () => _removeItem(item),
             ),
           ],
         ),
