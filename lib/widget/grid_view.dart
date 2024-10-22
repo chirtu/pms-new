@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pms_app/models/order.dart';
 import '../widget/food_item.dart';
 import '../widget/drinks_item.dart';
 
@@ -61,12 +60,13 @@ class _GridDisplayState extends State<GridDisplay> {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.78,
+        childAspectRatio: 1.16,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
       itemCount:
           widget.type == 'food' ? dummyFoodList.length : dummyDrinksList.length,
+          
       itemBuilder: (context, index) {
         if (widget.type == 'food') {
           final food = dummyFoodList[index];
@@ -91,11 +91,9 @@ class _GridDisplayState extends State<GridDisplay> {
                 });
               }
             },
-            child: GridTile(
+            child: Container(
+              // height: 100,
               child: FoodItem(food: food),
-              footer: food.isSelected
-                  ? Text('Quantity: ${food.boughtQuantity}') // Show quantity
-                  : null,
             ),
           );
         }

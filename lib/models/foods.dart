@@ -15,7 +15,7 @@ class Food {
       required this.description,
       required this.sellingPrice,
       required this.servedWith,
-      this.boughtQuantity = 1,
+      this.boughtQuantity = 0,
       this.isSelected = false});
 
   @override

@@ -94,25 +94,40 @@ class FoodItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: food.isSelected
-          ? Theme.of(context).colorScheme.primary.withOpacity(0.5)
-          : Colors.white,
+    return Container(
+      padding: const EdgeInsets.only(left: 20, top: 10, bottom: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: food.isSelected
+            ? Theme.of(context).colorScheme.primary.withOpacity(0.5)
+            : Colors.white,
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.all(10),
             child: ClipRRect(
-              child: Image.asset(
-                food.imageUrl,
-                fit: BoxFit.cover,
+              borderRadius:
+                  BorderRadius.circular(8.0), // Circular border radius
+              child: SizedBox(
+                width: 150, // Adjust the width as needed
+                height: 90, // Adjust the height as needed
+                child: Image.asset(
+                  food.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-          Text(
-            food.name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '${food.name}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              if (food.isSelected) Text('Qty ${food.boughtQuantity}x      '),
+            ],
           ),
           Text("\$${food.sellingPrice.toStringAsFixed(2)}"),
         ],

@@ -43,87 +43,79 @@ class DrinksPage extends StatelessWidget {
                       itemCount: dummyDrinksList.length,
                       itemBuilder: (context, index) {
                         final drink = dummyDrinksList[index];
-                        return Card(
-                          margin: const EdgeInsets.only(right: 16, left: 16, top: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          elevation: 3,
-                          color: Colors.white,
-                          child: SizedBox(
-                            height: 120,
-                            child: Card(
-                              color: Colors.white,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Container(
-                                    margin: const EdgeInsets.all(10),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(17),
-                                      child: Image.asset(
-                                        drink.imageUrl,
-                                        fit: BoxFit.cover,
-                                        width: 100, 
-                                        height:
-                                            100, 
-                                      ),
+                        return SizedBox(
+                          height: 120,
+                          child: Card(
+                            color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Container(
+                                  margin: const EdgeInsets.all(10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(17),
+                                    child: Image.asset(
+                                      drink.imageUrl,
+                                      fit: BoxFit.cover,
+                                      width: 100, 
+                                      height:
+                                          100, 
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        drink.name,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      drink.name,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'Unit: ${drink.unit}',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      'Qty: ${drink.stockQuantity}',
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          borderRadius:
+                                              BorderRadius.circular(6)),
+                                      child: Center(
+                                        child: Text(
+                                            'Selling  ${drink.sellingPrice.toString()}'),
                                       ),
-                                      Text(
-                                        'Unit: ${drink.unit}',
-                                        textAlign: TextAlign.center,
+                                    ),
+                                    Container(
+                                      height: 40,
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Center(
+                                        child: Text(
+                                            'Selling n ${drink.sellingPrice.toString()}'),
                                       ),
-                                      Text(
-                                        'Qty: ${drink.stockQuantity}',
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Container(
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            borderRadius:
-                                                BorderRadius.circular(6)),
-                                        child: Center(
-                                          child: Text(
-                                              'Selling  ${drink.sellingPrice.toString()}'),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 40,
-                                        padding: const EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Center(
-                                          child: Text(
-                                              'Selling n ${drink.sellingPrice.toString()}'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         );

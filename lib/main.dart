@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pms_app/pages/drinks_page.dart';
 import 'package:pms_app/pages/foods_page.dart';
-import 'package:pms_app/pages/Order_preview_page.dart';
+import 'package:pms_app/pages/order_preview_page.dart';
 import 'auth/loginPage.dart';
 import 'auth/signUpPage.dart';
 import 'models/order.dart';

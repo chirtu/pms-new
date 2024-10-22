@@ -3,7 +3,7 @@ import 'package:pms_app/models/drinks.dart';
 import 'package:pms_app/models/foods.dart';
 import 'package:pms_app/models/order.dart';
 import 'package:pms_app/widget/grid_view.dart';
-import 'Order_preview_page.dart';
+import 'order_preview_page.dart';
 import '../widget/custom_text_field.dart';
 import '../widget/drinks_item.dart';
 import '../widget/food_item.dart';
@@ -198,20 +198,23 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 10),
               Expanded(
-                child: IndexedStack(
-                  index:
-                      selectedIndex, // Use IndexedStack to show selected item
-                  children: const [
-                    GridDisplay(
-                        type:
-                            'food'), // Pass type to distinguish food and drinks
-                    GridDisplay(
-                        type:
-                            'drink'), // You need to implement this in GridDisplay
-                    Center(
-                        child:
-                            Text('Fruits Grid Here')), // Placeholder for Fruits
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20, left: 10),
+                  child: IndexedStack(
+                    index:
+                        selectedIndex, // Use IndexedStack to show selected item
+                    children: const [
+                      GridDisplay(
+                          type:
+                              'food'), // Pass type to distinguish food and drinks
+                      GridDisplay(
+                          type:
+                              'drink'), // You need to implement this in GridDisplay
+                      Center(
+                          child:
+                              Text('Fruits Grid Here')), // Placeholder for Fruits
+                    ],
+                  ),
                 ),
               ),
               Container(
