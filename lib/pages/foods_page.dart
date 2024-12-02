@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pms_app/widget/food_item.dart';
+
+import '../Lists/foods_list.dart';
 
 class FoodsPage extends StatelessWidget {
   const FoodsPage({super.key});

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pms_app/models/drinks.dart';
-import 'package:pms_app/models/foods.dart';
 import 'package:pms_app/models/order.dart';
 import 'package:pms_app/widget/grid_view.dart';
+import '../Lists/drinks_lists.dart';
+import '../Lists/foods_list.dart';
 import 'order_preview_page.dart';
-import '../widget/custom_text_field.dart';
-import '../widget/drinks_item.dart';
-import '../widget/food_item.dart';
-
-class HomePage extends StatefulWidget {
+import '../widget/custom_text_field.dart';class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override

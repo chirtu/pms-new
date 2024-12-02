@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pms_app/widget/drinks_item.dart';
+
+import '../Lists/drinks_lists.dart';
 
 class DrinksPage extends StatelessWidget {
   const DrinksPage({super.key});
