@@ -35,11 +35,24 @@ class DrinkItem extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            drink.name,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+          Row(
+            children: [
+              Column(
+                children: [
+                  Text(
+                    drink.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                  ),
+                  Text("\$${drink.sellingPrice.toStringAsFixed(2)}", style: const TextStyle(fontSize: 10),),
+                ],
+              ),
+              const Spacer(),
+              if(drink.isSelected)
+                Container(
+                  
+                )
+            ],
           ),
-          Text("\$${drink.sellingPrice.toStringAsFixed(2)}", style: const TextStyle(fontSize: 10),),
         ],
       ),
     );

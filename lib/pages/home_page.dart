@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pms_app/models/order.dart';
+import 'package:pms_app/pages/order_history_page.dart';
 import 'package:pms_app/widget/grid_view.dart';
 import '../Lists/drinks_lists.dart';
 import '../Lists/foods_list.dart';
 import 'order_preview_page.dart';
-import '../widget/custom_text_field.dart';class HomePage extends StatefulWidget {
+import '../widget/custom_text_field.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
@@ -36,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              backgroundColor: Theme.of(context).colorScheme.secondary,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               title: Text('Select Table Number'),
               content: SingleChildScrollView(
                 child: Wrap(
@@ -63,7 +66,10 @@ class _HomePageState extends State<HomePage> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text('OK'),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(color: Colors.black),
+                  ),
                   onPressed: selectedTableNumber != null
                       ? () {
                           // Create a new order for the selected table
@@ -97,11 +103,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OrderPreviewPage(
-                                selectedItems: selectedItems,
-                                tableNumber: selectedTableNumber,
-                                resetSelectionsCallback: resetSelections,
-                              ),
+                              builder: (context) => OrderPreviewPage(),
                             ),
                           );
                         }
@@ -114,174 +116,160 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+
   // This will track which item is selected
   int selectedIndex = 0; // Start with Foods tab selected
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Stack(children: <Widget>[
-        Image.asset(
-          'assets/images/restaurant.png',
-          fit: BoxFit.cover,
-          height: double.infinity,
-          width: double.infinity,
-        ),
-        Scaffold(
-          backgroundColor:
-              Theme.of(context).colorScheme.surface.withOpacity(0.5),
-          body: Column(
-            children: <Widget>[
-              Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.menu),
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'PMS',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.playlist_add_check),
-                          color: Colors.white,
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/login');
-                          },
-                          icon: const Icon(Icons.person),
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    CustomTextField(
-                      controller: searchController,
-                      prefixIcon: const Icon(Icons.search, color: Colors.black),
-                      fontSize: 15,
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      borderRadius: 30,
-                    ),
-                  ],
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
+          children: <Widget>[
+            Container(
+              height: 150,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
                 ),
               ),
-              const SizedBox(height: 10),
-              Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildTabItem(0, 'Foods'),
-                  _buildTabItem(1, 'Drinks'),
-                  _buildTabItem(2, 'Fruits'),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 20, left: 10),
-                  child: IndexedStack(
-                    index:
-                        selectedIndex, // Use IndexedStack to show selected item
-                    children: const [
-                      GridDisplay(
-                          type:
-                              'food'), // Pass type to distinguish food and drinks
-                      GridDisplay(
-                          type:
-                              'drink'), // You need to implement this in GridDisplay
-                      Center(
-                          child:
-                              Text('Fruits Grid Here')), // Placeholder for Fruits
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.menu),
+                        color: Colors.white,
+                      ),
+                      Text(
+                        'PMS',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.playlist_add_check),
+                        color: Colors.white,
+                        onPressed: () {
+                           Navigator.pushNamed(context, '/orderHistory');
+                        },
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
+                        icon: const Icon(Icons.person),
+                        color: Colors.white,
+                      ),
                     ],
                   ),
-                ),
+                  CustomTextField(
+                    controller: searchController,
+                    prefixIcon: const Icon(Icons.search, color: Colors.black),
+                    fontSize: 15,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    borderRadius: 30,
+                  ),
+                ],
               ),
-              Container(
-                height: 70,
-                width: 500,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/foods');
-                          },
-                          icon: const Icon(
-                            Icons.restaurant_menu,
-                            size: 34,
-                          ),
-                          color: Colors.white,
-                        ),
-                        const Text(
-                          'Foods',
-                          style: TextStyle(color: Colors.white, fontSize: 10),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            _showOrderConfirmationDialog(context);
-                          },
-                          icon: const Icon(
-                            Icons.add,
-                            size: 34,
-                          ),
-                          color: Colors.white,
-                        ),
-                        const Text('New Order',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 10)),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/drinks');
-                          },
-                          icon: const Icon(
-                            Icons.local_bar_sharp,
-                            size: 34,
-                          ),
-                          color: Colors.white,
-                        ),
-                        const Text('Drinks',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 10)),
-                      ],
-                    ),
-                  ],
-                ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildTabItem(0, 'Foods'),
+                _buildTabItem(1, 'Drinks'),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: IndexedStack(
+                index: selectedIndex, // Use IndexedStack to show selected item
+                children: const [
+                  GridDisplay(
+                      type: 'food'), // Pass type to distinguish food and drinks
+                  GridDisplay(
+                      type:
+                          'drink'), // You need to implement this in GridDisplay
+                  Center(
+                      child:
+                          Text('Fruits Grid Here')), // Placeholder for Fruits
+                ],
               ),
-            ],
-          ),
+            ),
+            Container(
+              height: 70,
+              width: 500,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                // borderRadius: BorderRadius.circular(30),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/foods');
+                        },
+                        icon: const Icon(
+                          Icons.restaurant_menu,
+                          size: 34,
+                        ),
+                        color: Colors.white,
+                      ),
+                      const Text(
+                        'Foods',
+                        style: TextStyle(color: Colors.white, fontSize: 10),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          _showOrderConfirmationDialog(context);
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                          size: 34,
+                        ),
+                        color: Colors.white,
+                      ),
+                      const Text('New Order',
+                          style: TextStyle(color: Colors.white, fontSize: 10)),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/drinks');
+                        },
+                        icon: const Icon(
+                          Icons.local_bar_sharp,
+                          size: 34,
+                        ),
+                        color: Colors.white,
+                      ),
+                      const Text('Drinks',
+                          style: TextStyle(color: Colors.white, fontSize: 10)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ]),
+      ),
     );
   }
 

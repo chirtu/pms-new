@@ -1,227 +1,310 @@
 import 'package:flutter/material.dart';
-import '../models/drinks.dart';
-import '../models/order.dart';
-import '../models/foods.dart';
+
+import '../Lists/order_list.dart';
 
 class OrderPreviewPage extends StatefulWidget {
-  final List<Order> selectedItems;
-  final Function? resetSelectionsCallback;
-  final int? tableNumber;
-
-  const OrderPreviewPage({
+  OrderPreviewPage({
     Key? key,
-    required this.selectedItems,
-    this.resetSelectionsCallback,
-    this.tableNumber,
   }) : super(key: key);
 
   @override
-  _OrderPreviewPage createState() => _OrderPreviewPage();
+  State<OrderPreviewPage> createState() => _OrderPreviewPageState();
 }
 
-class _OrderPreviewPage extends State<OrderPreviewPage> {
-  late Order combinedOrder;
-
-  @override
-  void initState() {
-    super.initState();
-    combinedOrder = _combineOrders(widget.selectedItems);
-    print('----------');
-    print('Selected Items: ${widget.selectedItems}');
-    print('Combined Order Drinks: ${combinedOrder.drinks}');
-  }
-
-  Order _combineOrders(List<Order> orders) {
-    int totalQuantity = 0;
-    double totalCost = 0.0;
-    List<Food> combinedFoods = [];
-    List<Drink> combinedDrinks = [];
-
-    for (var order in orders) {
-      totalQuantity += order.totalBoughtQuantity;
-      totalCost += order.totalCost ?? 0.0;
-      if (order.foods != null) {
-        combinedFoods.addAll(order.foods!);
-      }
-      if (order.drinks != null) {
-        combinedDrinks.addAll(order.drinks!);
-      }
-    }
-
-    return Order(
-      tableId: widget.tableNumber.toString(),
-      totalCost: totalCost,
-      foods: combinedFoods,
-      drinks: combinedDrinks,
-    );
-  }
-
-  void _editQuantity(dynamic item) {
-    int newQuantity = item.boughtQuantity;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Edit Quantity for ${item.name}"),
-          content: TextField(
-            keyboardType: TextInputType.number,
-            onChanged: (value) => newQuantity = int.tryParse(value) ?? item.boughtQuantity,
-            decoration: const InputDecoration(labelText: "Quantity"),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                setState(() => item.boughtQuantity = newQuantity);
-                Navigator.of(context).pop();
-              },
-              child: const Text("OK"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Cancel"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _removeItem(dynamic item) {
-    if (item is Food) {
-      setState(() => combinedOrder.foods?.remove(item));
-    } else if (item is Drink) {
-      setState(() => combinedOrder.drinks?.remove(item));
-    }
-  }
+class _OrderPreviewPageState extends State<OrderPreviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(
-          'Order table ${widget.tableNumber}',
-          style: TextStyle(color: Colors.white),
+    final orderModel = dummyOrders.first;
+
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Order Table ${orderModel.tableId}'),
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
-      ),
-      backgroundColor: Colors.black87,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+        backgroundColor: Colors.white,
+        body: Column(
           children: [
             Expanded(
               child: ListView(
                 children: [
-                  // Display Foods
-                  if (combinedOrder.foods != null && combinedOrder.foods!.isNotEmpty) ...[
-                    Text(
-                      "Foods",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
+                  // Foods
+                  if (orderModel.items.any((item) => item.type == "Food")) ...[
+                    Container(
+                      height: 50,
+                      color: Color(0xFFFFE4C2),
+                      child: Center(
+                        child: Text(
+                          "Foods",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                        ),
                       ),
                     ),
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: combinedOrder.foods?.length ?? 0,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: orderModel.items
+                          .where((item) => item.type == "Food")
+                          .length,
                       itemBuilder: (context, index) {
-                        final item = combinedOrder.foods![index];
-                        return _buildItemTile(item);
+                        final item = orderModel.items
+                            .where((item) => item.type == "Food")
+                            .toList()[index];
+                        return _buildItemTile(item, context);
                       },
                     ),
                   ],
                   const SizedBox(height: 16),
-                  // Display Drinks
-                  if (combinedOrder.drinks != null && combinedOrder.drinks!.isNotEmpty) ...[
-                    Text(
-                      "Drinks",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
+                  // Drinks
+                  if (orderModel.items.any((item) => item.type == "Drink")) ...[
+                    Container(
+                      height: 50,
+                      color: Color(0xFFFFE4C2),
+                      child: Center(
+                        child: Text(
+                          "Drinks",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                        ),
                       ),
                     ),
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: combinedOrder.drinks?.length ?? 0,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: orderModel.items
+                          .where((item) => item.type == "Drink")
+                          .length,
                       itemBuilder: (context, index) {
-                        final item = combinedOrder.drinks![index];
-                        return _buildItemTile(item);
+                        final item = orderModel.items
+                            .where((item) => item.type == "Drink")
+                            .toList()[index];
+                        return _buildItemTile(item, context);
                       },
                     ),
                   ],
                 ],
               ),
             ),
+            // Total Cost
+            const Divider(
+              color: Color(0xFFFFE4C2),
+              height: 10,
+              thickness: 1,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Total Cost:",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
+                Container(
+                  margin: EdgeInsets.only(left: 30),
+                  child: Text(
+                    "Total Cost:",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w300,
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
                   ),
                 ),
                 Text(
-                  "Tsh ${combinedOrder.totalCost?.toStringAsFixed(2) ?? '0.00'}",
+                  "Tsh ${_calculateTotalCost(orderModel.items).toStringAsFixed(2)}",
                   style: TextStyle(
                     fontSize: 18,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                 ),
               ],
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.popAndPushNamed(context, '/home');
-                widget.resetSelectionsCallback?.call();
-              },
-              child: Text("Confirm Order"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-              ),
-            ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+                child: const Text(
+                  "Confirm Order",
+                  style: TextStyle(color: Colors.black),
+                )),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildItemTile(dynamic item) {
+  Widget _buildItemTile(OrderItem item, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color:
+                Theme.of(context).primaryColor.withOpacity(0.4), // Shadow color
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      margin: EdgeInsets.all(4),
-      child: ListTile(
-        title: Text('${item.name}'),
-        subtitle: Text(
-          "Quantity: ${item.boughtQuantity}",
-          style: const TextStyle(fontSize: 10),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+      margin: const EdgeInsets.all(4),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                _editQuantity(item);
-              },
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.name,
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w200),
+                ),
+                Text(
+                  "Tsh ${(item.quantity * item.sellingPrice).toStringAsFixed(2)}",
+                  style: TextStyle(fontSize: 10.0),
+                ),
+              ],
             ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () => _removeItem(item),
+            Text(
+              "Quantity: ${item.quantity}",
+              style: TextStyle(fontSize: 10.0),
             ),
+            // Text(
+            //   "Tsh ${(item.quantity * item.sellingPrice).toStringAsFixed(2)}",
+            //   style: TextStyle(fontSize: 12.0),
+            // ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 20,
+                  child: IconButton(
+                    iconSize: 20,
+                    onPressed: () {
+                      setState(() {
+                        item.quantity += 1;
+                      });
+                      // Action to perform when the button is pressed
+                    },
+                    icon: Icon(Icons.add),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 20,
+                  child: IconButton(
+                    iconSize: 20,
+                    onPressed: () {
+                      Widget _buildItemTile(
+                          OrderItem item, BuildContext context) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.4), // Shadow color
+                                spreadRadius: 1,
+                                blurRadius: 4,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          margin: const EdgeInsets.all(4),
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.name,
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "Tsh ${(item.quantity * item.sellingPrice).toStringAsFixed(2)}",
+                                      style: TextStyle(fontSize: 12.0),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "Quantity: ${item.quantity}",
+                                  style: TextStyle(fontSize: 10.0),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                      child: IconButton(
+                                        iconSize: 20,
+                                        onPressed: () {
+                                          setState(() {
+                                            item.quantity += 1;
+                                          });
+                                        },
+                                        icon: Icon(Icons.add),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                      child: IconButton(
+                                        iconSize: 20,
+                                        onPressed: () {
+                                          setState(() {
+                                            if (item.quantity > 0) {
+                                              item.quantity -= 1;
+                                            }
+                                          });
+                                        },
+                                        icon: Icon(Icons.remove),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+
+                      Text("Increment");
+                    },
+                    icon: Icon(Icons.remove),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
+    );
+  }
+
+  double _calculateTotalCost(List<OrderItem> items) {
+    return items.fold(
+      0.0,
+      (total, item) => total + (item.quantity * item.sellingPrice),
     );
   }
 }

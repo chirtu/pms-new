@@ -17,44 +17,44 @@ class _GridDisplayState extends State<GridDisplay> {
   void _showQuantityDialog(String itemName, Function(int) onUpdate) {
     int quantity = 1; // Default quantity
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xFF663202),
-          title: Text('Select Quantity for $itemName',
-              style: TextStyle(
-                fontSize: 12,
-              )),
-          content: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: 'Quantity'),
-                  onChanged: (value) {
-                    quantity = int.tryParse(value) ?? 1;
-                  },
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                onUpdate(quantity);
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return AlertDialog(
+    //       backgroundColor: const Color(0xFF663202),
+    //       title: Text('Select Quantity for $itemName',
+    //           style: TextStyle(
+    //             fontSize: 12,
+    //           )),
+    //       content: Row(
+    //         children: [
+    //           Expanded(
+    //             child: TextField(
+    //               keyboardType: TextInputType.number,
+    //               decoration: InputDecoration(labelText: 'Quantity'),
+    //               onChanged: (value) {
+    //                 quantity = int.tryParse(value) ?? 1;
+    //               },
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //       actions: [
+    //         TextButton(
+    //           onPressed: () {
+    //             onUpdate(quantity);
+    //             Navigator.of(context).pop();
+    //           },
+    //           child: Text('OK'),
+    //         ),
+    //         TextButton(
+    //           onPressed: () => Navigator.of(context).pop(),
+    //           child: Text('Cancel'),
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
   }
 
   @override
@@ -68,30 +68,14 @@ class _GridDisplayState extends State<GridDisplay> {
       ),
       itemCount:
           widget.type == 'food' ? dummyFoodList.length : dummyDrinksList.length,
-          
       itemBuilder: (context, index) {
         if (widget.type == 'food') {
           final food = dummyFoodList[index];
           return GestureDetector(
             onTap: () {
-              if (food.isSelected) {
-                // If already selected, show quantity dialog
-                _showQuantityDialog(food.name, (quantity) {
-                  setState(() {
-                    food.boughtQuantity = quantity; // Update quantity
-                  });
-                });
-              } else {
-                // Toggle selection
-                setState(() {
-                  food.isSelected = true; // Mark as selected
-                });
-                _showQuantityDialog(food.name, (quantity) {
-                  setState(() {
-                    food.boughtQuantity = quantity; // Set quantity
-                  });
-                });
-              }
+              setState(() {
+                food.isSelected = !food.isSelected; 
+              });
             },
             child: Container(
               // height: 100,
@@ -104,22 +88,21 @@ class _GridDisplayState extends State<GridDisplay> {
           return GestureDetector(
             onTap: () {
               if (drink.isSelected) {
-                // If already selected, show quantity dialog
-                _showQuantityDialog(drink.name, (quantity) {
-                  setState(() {
-                    drink.boughtQuantity = quantity; // Update quantity
-                  });
-                });
+                // _showQuantityDialog(drink.name, (quantity) {
+                //   setState(() {
+                //     drink.boughtQuantity = quantity;
+                //   });
+                // });
               } else {
                 // Toggle selection
                 setState(() {
                   drink.isSelected = true; // Mark as selected
                 });
-                _showQuantityDialog(drink.name, (quantity) {
-                  setState(() {
-                    drink.boughtQuantity = quantity; // Set quantity
-                  });
-                });
+                // _showQuantityDialog(drink.name, (quantity) {
+                //   setState(() {
+                //     drink.boughtQuantity = quantity; // Set quantity
+                //   });
+                // });
               }
             },
             child: GridTile(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pms_app/pages/drinks_page.dart';
 import 'package:pms_app/pages/foods_page.dart';
+import 'package:pms_app/pages/order_history_page.dart';
 import 'package:pms_app/pages/order_preview_page.dart';
 import 'auth/loginPage.dart';
 import 'auth/signUpPage.dart';
@@ -21,9 +22,10 @@ class MyApp extends StatelessWidget {
       title: 'Login Page',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color(0xFFE26A05),
-          secondary: const Color(0xFF663202),
+          primary: const Color(0xFFE26A05).withOpacity(0.6),
+          secondary: Colors.white,
           surface: Colors.black,
+
           
         ),
       ),
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
           // Directly cast the arguments to List<Order>
           final List<Order> selectedItems = settings.arguments as List<Order>;
           return MaterialPageRoute(
-            builder: (context) => OrderPreviewPage(selectedItems: selectedItems),
+            builder: (context) => OrderPreviewPage(),
           );
         }
         // Handle other routes...
@@ -45,8 +47,9 @@ class MyApp extends StatelessWidget {
         '/drinks': (context) => const DrinksPage(),
         '/login': (context) => LoginPage(),
         '/signUp': (context) => SignUpPage(),
+        '/orderHistory': (context) => OrderHistoryPage(),
       },
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
