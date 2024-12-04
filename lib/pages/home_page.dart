@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pms_app/models/order.dart';
-import 'package:pms_app/pages/order_history_page.dart';
 import 'package:pms_app/widget/grid_view.dart';
 import '../Lists/drinks_lists.dart';
 import '../Lists/foods_list.dart';
@@ -148,14 +147,14 @@ class _HomePageState extends State<HomePage> {
                         icon: const Icon(Icons.menu),
                         color: Colors.white,
                       ),
-                      Text(
+                      const Text(
                         'PMS',
                         style: TextStyle(
                           fontSize: 20,
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.playlist_add_check),
+                        icon: Icon(Icons.history),
                         color: Colors.white,
                         onPressed: () {
                            Navigator.pushNamed(context, '/orderHistory');

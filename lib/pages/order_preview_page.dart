@@ -12,7 +12,6 @@ class OrderPreviewPage extends StatefulWidget {
 }
 
 class _OrderPreviewPageState extends State<OrderPreviewPage> {
-
   @override
   Widget build(BuildContext context) {
     final orderModel = dummyOrders.first;
@@ -147,8 +146,7 @@ class _OrderPreviewPageState extends State<OrderPreviewPage> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color:
-                Theme.of(context).primaryColor.withOpacity(0.4), // Shadow color
+            color: Theme.of(context).primaryColor.withOpacity(0.4),
             spreadRadius: 1,
             blurRadius: 4,
             offset: const Offset(0, 3),
@@ -166,11 +164,11 @@ class _OrderPreviewPageState extends State<OrderPreviewPage> {
               children: [
                 Text(
                   item.name,
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w200),
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
                 ),
                 Text(
                   "Tsh ${(item.quantity * item.sellingPrice).toStringAsFixed(2)}",
-                  style: TextStyle(fontSize: 10.0),
+                  style: TextStyle(fontSize: 12.0),
                 ),
               ],
             ),
@@ -178,10 +176,6 @@ class _OrderPreviewPageState extends State<OrderPreviewPage> {
               "Quantity: ${item.quantity}",
               style: TextStyle(fontSize: 10.0),
             ),
-            // Text(
-            //   "Tsh ${(item.quantity * item.sellingPrice).toStringAsFixed(2)}",
-            //   style: TextStyle(fontSize: 12.0),
-            // ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -193,108 +187,27 @@ class _OrderPreviewPageState extends State<OrderPreviewPage> {
                       setState(() {
                         item.quantity += 1;
                       });
-                      // Action to perform when the button is pressed
                     },
                     icon: Icon(Icons.add),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 SizedBox(
                   height: 20,
                   child: IconButton(
                     iconSize: 20,
                     onPressed: () {
-                      Widget _buildItemTile(
-                          OrderItem item, BuildContext context) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.4), // Shadow color
-                                spreadRadius: 1,
-                                blurRadius: 4,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          margin: const EdgeInsets.all(4),
-                          child: Container(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item.name,
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      "Tsh ${(item.quantity * item.sellingPrice).toStringAsFixed(2)}",
-                                      style: TextStyle(fontSize: 12.0),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  "Quantity: ${item.quantity}",
-                                  style: TextStyle(fontSize: 10.0),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 20,
-                                      child: IconButton(
-                                        iconSize: 20,
-                                        onPressed: () {
-                                          setState(() {
-                                            item.quantity += 1;
-                                          });
-                                        },
-                                        icon: Icon(Icons.add),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                      child: IconButton(
-                                        iconSize: 20,
-                                        onPressed: () {
-                                          setState(() {
-                                            if (item.quantity > 0) {
-                                              item.quantity -= 1;
-                                            }
-                                          });
-                                        },
-                                        icon: Icon(Icons.remove),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-
-                      Text("Increment");
+                      setState(() {
+                        if (item.quantity > 0) {
+                          item.quantity -= 1;
+                        }
+                      });
                     },
                     icon: Icon(Icons.remove),
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

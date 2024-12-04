@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pms_app/pages/add_stock.dart';
 import 'package:pms_app/pages/drinks_page.dart';
 import 'package:pms_app/pages/foods_page.dart';
 import 'package:pms_app/pages/order_history_page.dart';
@@ -32,8 +33,6 @@ class MyApp extends StatelessWidget {
 
       onGenerateRoute: (settings) {
         if (settings.name == '/confirmOrder') {
-          // Directly cast the arguments to List<Order>
-          final List<Order> selectedItems = settings.arguments as List<Order>;
           return MaterialPageRoute(
             builder: (context) => OrderPreviewPage(),
           );
@@ -48,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/signUp': (context) => SignUpPage(),
         '/orderHistory': (context) => OrderHistoryPage(),
+        '/add':(context)=>const StockAdd(),
       },
       home: const HomePage(),
     );
