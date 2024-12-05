@@ -13,7 +13,11 @@ class StockAdd extends StatefulWidget {
 }
 
 class _StockAddState extends State<StockAdd> {
-  TextEditingController _controller = TextEditingController();
+
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
+  TextEditingController _descriptionFood = TextEditingController();
+  TextEditingController _serverdWith = TextEditingController();
   String _selectedType = 'Food';
   bool isFood = false;
   bool _isUploading = false;
@@ -170,6 +174,7 @@ class _StockAddState extends State<StockAdd> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: CupertinoTextField(
+                          controller: _nameController,
                           placeholder:
                               isFood ? 'Enter Food Name' : 'Enter Drink Name',
                           padding: const EdgeInsets.all(12.0),
@@ -182,7 +187,7 @@ class _StockAddState extends State<StockAdd> {
                             // ),
                           ),
                           style: const TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 12.0,
                             color: CupertinoColors.black,
                           ),
                           placeholderStyle: const TextStyle(
@@ -196,13 +201,6 @@ class _StockAddState extends State<StockAdd> {
                               color: CupertinoColors.systemGrey,
                             ),
                           ),
-                          suffix: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(
-                              CupertinoIcons.clear_thick_circled,
-                              color: CupertinoColors.systemGrey,
-                            ),
-                          ),
                           cursorColor: CupertinoColors.activeBlue,
                           clearButtonMode: OverlayVisibilityMode.editing,
                         ),
@@ -212,7 +210,7 @@ class _StockAddState extends State<StockAdd> {
                 ],
               ),
             ),
-              const SizedBox(
+            const SizedBox(
               height: 20,
             ),
             SizedBox(
@@ -239,6 +237,7 @@ class _StockAddState extends State<StockAdd> {
                     ),
                     width: MediaQuery.of(context).size.width / 1.2,
                     child: CupertinoTextField(
+                      controller: _priceController,
                       placeholder:
                           isFood ? 'Enter Food Price' : 'Enter Drink price',
                       padding: const EdgeInsets.all(12.0),
@@ -272,7 +271,6 @@ class _StockAddState extends State<StockAdd> {
                 ],
               ),
             ),
-
             SizedBox(
               height: 20,
             ),
@@ -299,7 +297,7 @@ class _StockAddState extends State<StockAdd> {
                           ),
                           child: IntrinsicHeight(
                             child: CupertinoTextField(
-                              controller: _controller,
+                              controller: _descriptionFood,
                               placeholder: 'Enter Description',
                               padding: const EdgeInsets.all(12.0),
                               decoration: BoxDecoration(
@@ -311,7 +309,7 @@ class _StockAddState extends State<StockAdd> {
                                 ),
                               ),
                               style: const TextStyle(
-                                fontSize: 18.0,
+                                fontSize: 12.0,
                                 color: CupertinoColors.black,
                               ),
                               placeholderStyle: TextStyle(
@@ -349,7 +347,7 @@ class _StockAddState extends State<StockAdd> {
                           ),
                           child: IntrinsicHeight(
                             child: CupertinoTextField(
-                              controller: _controller,
+                              controller: _serverdWith,
                               placeholder: 'Served with Description',
                               padding: const EdgeInsets.all(12.0),
                               decoration: BoxDecoration(
@@ -361,7 +359,7 @@ class _StockAddState extends State<StockAdd> {
                                 ),
                               ),
                               style: const TextStyle(
-                                fontSize: 18.0,
+                                fontSize: 12.0,
                                 color: CupertinoColors.black,
                               ),
                               placeholderStyle: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pms_app/models/order.dart';
+import 'package:pms_app/themes/custom_colors.dart';
 import 'package:pms_app/widget/grid_view.dart';
 import '../Lists/drinks_lists.dart';
 import '../Lists/foods_list.dart';
@@ -129,7 +130,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: 150,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: accentColor,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
@@ -288,7 +289,7 @@ class _HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: isSelected
-              ? Theme.of(context).colorScheme.primary
+              ? accentColor
               : Theme.of(context).colorScheme.secondary,
         ),
         child: Text(

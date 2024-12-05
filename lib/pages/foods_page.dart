@@ -135,20 +135,6 @@ class FoodsPage extends StatelessWidget {
                       );
                     },
                   ),
-                  Positioned(
-                    bottom: 10,
-                    right: 0.1,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.add_circle,
-                        color: Theme.of(context).colorScheme.secondary,
-                        size: 70,
-                      ),
-                      color: Theme.of(context).colorScheme.primary,
-                      padding: const EdgeInsets.all(16),
-                    ),
-                  ),
                 ],
               ),
             ),

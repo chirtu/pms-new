@@ -7,54 +7,67 @@ class DrinkItem extends StatelessWidget {
 
   const DrinkItem({Key? key, required this.drink}) : super(key: key);
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 20, top: 10, bottom: 5),
       decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        color: drink.isSelected
-            ? Theme.of(context).colorScheme.secondary.withOpacity(0.5)
-            : Colors.white,
+            boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).primaryColor.withOpacity(0.4), // Shadow color
+                  spreadRadius: 1, 
+                  blurRadius: 4, 
+                  offset: const Offset(0, 3), 
+                ),
+              ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: const EdgeInsets.all(10),
-            child: ClipRRect(
-              borderRadius:
-                  BorderRadius.circular(8.0), // Circular border radius
-              child: SizedBox(
-                width: 150,
-                height: 80,
-                child: Image.asset(
-                  drink.imageUrl,
-                  fit: BoxFit.cover,
-                ),
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              height: 105, // Adjust the height as needed
+              child: Image.asset(
+                drink.imageUrl,
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          Row(
-            children: [
-              Column(
-                children: [
-                  Text(
-                    drink.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-                  ),
-                  Text("\$${drink.sellingPrice.toStringAsFixed(2)}", style: const TextStyle(fontSize: 10),),
-                ],
-              ),
-              const Spacer(),
-              if(drink.isSelected)
-                Container(
-                  
-                )
-            ],
-          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Row(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${drink.name}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text("\$${drink.sellingPrice.toStringAsFixed(2)}"),
+                  ],
+                ),
+                const Spacer(),
+                drink.isSelected
+                    ? Container(
+                        width: 50,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Theme.of(context).colorScheme.primary),
+                            child: Icon(Icons.check),
+                      )
+                    : Icon(Icons.shopping_cart),
+              ],
+            ),
+          )
         ],
       ),
     );
-  }
+  } 
 }
